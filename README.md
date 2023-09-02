@@ -1,6 +1,8 @@
 # 油猴脚本：**B站字幕遮挡 Subtitle-Overlay**
 
-**说明：** 本工具可用于遮挡视频字幕，帮助学习第二语言的用户提高听力技能。
+**说明：** 本工具可用于遮挡视频字幕，帮助学习第二语言的用户提高听力技能。可通过点击圆球，产生一个**可以移动**的矩形用来遮挡字幕，还可以通过拖拽矩形的**右下角↘**来调整矩形大小。
+
+**Note:** This tool can be used to conceal video subtitles, assisting users learning a second language in improving their listening skills. You can generate a **movable** rectangle by clicking on the circle to cover the subtitles. Additionally, you can adjust the size of the rectangle by dragging the **bottom right corner ↘**.
 
 ## Language / 语言
 - [English](#english)
