@@ -4,7 +4,7 @@
 // @version      1.1
 // @description  Create a floating button and resizable rectangle
 // @author       You
-// @match        *://*.bilibili.com/*
+// @match        *://*/*
 // @license      MIT License
 // @grant        none
 // ==/UserScript==
@@ -78,7 +78,7 @@
     button.style.width = '30px';
     button.style.height = '30px';
     button.style.borderRadius = '50%';
-    button.style.background = 'rgba(102, 178, 255, 0.5)';
+    button.style.background = 'rgb(220, 53, 69)';
     button.style.color = 'white';
     button.style.cursor = 'move';
  
@@ -96,7 +96,8 @@
             rectangle.style.bottom = '50px';
             rectangle.style.width = '200px';
             rectangle.style.height = '200px';
-            rectangle.style.background = 'rgba(128, 128, 128, 1)';
+            rectangle.style.background = 'rgba(255, 255, 255, 0.2)';
+            rectangle.style.backdropFilter = 'blur(4px)'
             rectangle.style.cursor = 'move';
             appendElement(rectangle);
  
@@ -104,7 +105,8 @@
             const div = document.createElement('div');
             div.style.width = '10px';
             div.style.height = '10px';
-            div.style.background = 'rgba(128, 128, 128, 0.01)';
+            div.style.background = 'rgba(255, 255, 255, 0.2)';
+            div.style.backdropFilter = 'blur(4px)'
             div.style.borderRadius = '50%';
             div.style.position = 'absolute';
             div.style.cursor = 'se-resize';
