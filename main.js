@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         B站字幕遮挡工具-第二语言学习(Subtitle-Overlay)
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.3
 // @description  Create a floating button and resizable rectangle
 // @author       You
-// @match        *://*/*
+// @match        *://*.bilibili.com/*
 // @license      MIT License
 // @grant        none
 // ==/UserScript==
@@ -19,24 +19,6 @@
   let lastDownX = 0;
   let lastDownY = 0;
   let hideButtonTimeout = null;
-
-  // 防抖函数
-  function debounce(func, wait) {
-    let timeout;
-    return function () {
-      let context = this;
-      let args = arguments;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        func.apply(context, args);
-      }, wait);
-    }
-  }
-
-  // 使用
-  let debouncedEventHandler = function(rawHandler){
-    return debounce(rawHandler, 100);
-  }
 
   function getFullscreenElement() {
     return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
@@ -101,7 +83,7 @@
   button.style.cursor = 'move';
 
   // 点击按钮时创建矩形
-  button.addEventListener('click',debouncedEventHandler( (e) => {
+  button.addEventListener('click', (e) => {
     e.stopPropagation();
     if (rectangle) {
       rectangle.parentNode.removeChild(rectangle);
@@ -117,14 +99,14 @@
       rectangle.style.background = 'rgba(255, 255, 255, 0.2)';
       rectangle.style.backdropFilter = 'blur(4px)'
       rectangle.style.cursor = 'move';
+      rectangle.style.clipPath = 'polygon(0% 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%)'; // 使用 clipPath 创建折角形状
       appendElement(rectangle);
 
       // Create resizable handle
       const div = document.createElement('div');
-      div.style.width = '10px';
-      div.style.height = '10px';
-      div.style.background = 'rgba(255, 255, 255, 0.2)';
-      div.style.backdropFilter = 'blur(4px)'
+      div.style.width = '40px';
+      div.style.height = '40px';
+      div.style.background = 'rgba(255, 255, 255, 0)';
       div.style.borderRadius = '50%';
       div.style.position = 'absolute';
       div.style.cursor = 'se-resize';
@@ -132,6 +114,8 @@
       div.style.right = '-5px';
       div.style.bottom = '-5px';
       rectangle.appendChild(div);
+
+
 
       // 绑定鼠标按下事件
       rectangle.addEventListener('mousedown', (e) => {
@@ -172,41 +156,41 @@
         isResizing = false;
       });
     }
-  }));
+  });
 
   // 绑定按钮鼠标按下事件
-  button.addEventListener('mousedown', debouncedEventHandler((e) => {
-    e.preventDefault(); // 将 e.preventDefault() 移动到这里
+  button.addEventListener('mousedown', (e) => {
+    e.preventDefault();
     e.stopPropagation();
     isButtonMoving = true;
     lastDownX = e.clientX;
     lastDownY = e.clientY;
-  }));
+  });
 
   // 绑定按钮鼠标拖拽事件
-  document.addEventListener('mousemove', debouncedEventHandler((e) => {
+  document.addEventListener('mousemove', (e) => {
     if (isButtonMoving) {
       button.style.left = (button.offsetLeft - lastDownX + e.clientX) + 'px';
       button.style.top = (button.offsetTop - lastDownY + e.clientY) + 'px';
       lastDownX = e.clientX;
       lastDownY = e.clientY;
     }
-  }));
+  });
 
   // 绑定按钮鼠标抬起事件
-  document.addEventListener('mouseup', debouncedEventHandler(() => {
+  document.addEventListener('mouseup', () => {
     isButtonMoving = false;
-  }));
+  });
 
   // 绑定鼠标移动事件，显示圆球
-  document.addEventListener('mousemove', debouncedEventHandler(() => {
+  document.addEventListener('mousemove', () => {
     showButton();
-  }));
+  });
 
   // 绑定鼠标点击事件，显示圆球
-  document.addEventListener('mousedown', debouncedEventHandler(() => {
+  document.addEventListener('mousedown', () => {
     showButton();
-  }));
+  });
 
   appendElement(button);
   resetHideButtonTimeout();
